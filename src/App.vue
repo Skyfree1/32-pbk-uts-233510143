@@ -2,13 +2,16 @@
   <div class="container">
     <h1>Daftar Kegiatan</h1>
 
+    <!-- Form tambah kegiatan -->
     <form @submit.prevent="tambahKegiatan">
-      <input v-model="kegiatanBaru" placeholder="Tambahkan kegiatan baru" />
+      <input v-model="kegiatanBaru" placeholder="Masukkan kegiatan baru" />
+      <button type="submit">Tambah</button>
     </form>
 
+    <!-- Daftar kegiatan -->
     <ul>
-      <li v-for="(kegiatan, index) in daftarKegiatan" :key="index">
-        {{ kegiatan }}
+      <li v-for="(item, index) in daftarKegiatan" :key="index">
+        {{ item }}
       </li>
     </ul>
   </div>
@@ -22,7 +25,7 @@ const daftarKegiatan = ref([])
 
 function tambahKegiatan() {
   if (kegiatanBaru.value.trim() !== '') {
-    daftarKegiatan.value.push(kegiatanBaru.value)
+    daftarKegiatan.value.push(kegiatanBaru.value.trim())
     kegiatanBaru.value = ''
   }
 }
@@ -31,25 +34,30 @@ function tambahKegiatan() {
 <style scoped>
 .container {
   max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 2rem auto;
+  font-family: sans-serif;
 }
+
 input {
   padding: 8px;
-  width: 70%;
+  width: 60%;
 }
+
 button {
   padding: 8px 12px;
-  margin-left: 8px;
+  margin-left: 10px;
 }
+
 ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin-top: 1rem;
 }
+
 li {
-  margin: 8px 0;
-  background: #f0f0f0;
+  background-color: #f5f5f5;
   padding: 10px;
+  margin-bottom: 5px;
   border-radius: 4px;
 }
 </style>
