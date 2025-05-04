@@ -2,16 +2,17 @@
   <div class="container">
     <h1>Daftar Kegiatan</h1>
 
-    <!-- Form tambah kegiatan -->
+    <!-- Input Tambah Kegiatan -->
     <form @submit.prevent="tambahKegiatan">
       <input v-model="kegiatanBaru" placeholder="Masukkan kegiatan baru" />
       <button type="submit">Tambah</button>
     </form>
 
-    <!-- Daftar kegiatan -->
+    <!-- Daftar Kegiatan -->
     <ul>
       <li v-for="(item, index) in daftarKegiatan" :key="index">
         {{ item }}
+        <button @click="hapusKegiatan(index)">Batal</button>
       </li>
     </ul>
   </div>
@@ -28,6 +29,10 @@ function tambahKegiatan() {
     daftarKegiatan.value.push(kegiatanBaru.value.trim())
     kegiatanBaru.value = ''
   }
+}
+
+function hapusKegiatan(index) {
+  daftarKegiatan.value.splice(index, 1)
 }
 </script>
 
@@ -58,6 +63,18 @@ li {
   background-color: #f5f5f5;
   padding: 10px;
   margin-bottom: 5px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li button {
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
   border-radius: 4px;
 }
 </style>
