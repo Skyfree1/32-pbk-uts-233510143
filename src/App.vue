@@ -2,16 +2,19 @@
   <div class="container">
     <h1>Daftar Kegiatan</h1>
 
-    <!-- Input Tambah Kegiatan -->
+    <!-- Tambah kegiatan -->
     <form @submit.prevent="tambahKegiatan">
       <input v-model="kegiatanBaru" placeholder="Masukkan kegiatan baru" />
       <button type="submit">Tambah</button>
     </form>
 
-    <!-- Daftar Kegiatan -->
+    <!-- Tampilkan daftar kegiatan -->
     <ul>
       <li v-for="(item, index) in daftarKegiatan" :key="index">
-        {{ item }}
+        <label>
+          <input type="checkbox" v-model="item.selesai" />
+          <span :class="{ selesai: item.selesai }">{{ item.nama }}</span>
+        </label>
         <button @click="hapusKegiatan(index)">Batal</button>
       </li>
     </ul>
@@ -25,8 +28,9 @@ const kegiatanBaru = ref('')
 const daftarKegiatan = ref([])
 
 function tambahKegiatan() {
-  if (kegiatanBaru.value.trim() !== '') {
-    daftarKegiatan.value.push(kegiatanBaru.value.trim())
+  const nama = kegiatanBaru.value.trim()
+  if (nama !== '') {
+    daftarKegiatan.value.push({ nama, selesai: false })
     kegiatanBaru.value = ''
   }
 }
@@ -43,7 +47,7 @@ function hapusKegiatan(index) {
   font-family: sans-serif;
 }
 
-input {
+input[type="text"] {
   padding: 8px;
   width: 60%;
 }
@@ -69,12 +73,8 @@ li {
   align-items: center;
 }
 
-li button {
-  background-color: red;
-  color: white;
-  border: none;
-  cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 4px;
+.selesai {
+  text-decoration: line-through;
+  color: gray;
 }
 </style>
