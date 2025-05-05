@@ -2,15 +2,23 @@
   <div class="container">
     <h1>Daftar Kegiatan</h1>
 
-    <!-- Tambah kegiatan baru -->
+    <!-- Form tambah kegiatan -->
     <form @submit.prevent="tambahKegiatan">
       <input v-model="kegiatanBaru" placeholder="Masukkan kegiatan baru" />
       <button type="submit">Tambah</button>
     </form>
 
-    <!-- Daftar kegiatan -->
+    <!-- Filter toggle -->
+    <div class="filter">
+      <label>
+        <input type="checkbox" v-model="hanyaBelumSelesai" />
+        Tampilkan hanya yang belum selesai
+      </label>
+    </div>
+
+    <!-- Daftar kegiatan (difilter) -->
     <ul>
-      <li v-for="(item, index) in daftarKegiatan" :key="index">
+      <li v-for="(item, index) in kegiatanTerfilter" :key="index">
         <label class="kegiatan-label">
           <input type="checkbox" v-model="item.selesai" />
           <span :class="{ selesai: item.selesai }">{{ item.nama }}</span>
@@ -22,10 +30,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const kegiatanBaru = ref('')
 const daftarKegiatan = ref([])
+const hanyaBelumSelesai = ref(false)
 
 function tambahKegiatan() {
   const nama = kegiatanBaru.value.trim()
@@ -38,6 +47,13 @@ function tambahKegiatan() {
 function hapusKegiatan(index) {
   daftarKegiatan.value.splice(index, 1)
 }
+
+// Komputasi daftar yang ditampilkan berdasarkan filter
+const kegiatanTerfilter = computed(() => {
+  return hanyaBelumSelesai.value
+    ? daftarKegiatan.value.filter(kegiatan => !kegiatan.selesai)
+    : daftarKegiatan.value
+})
 </script>
 
 <style scoped>
@@ -82,5 +98,9 @@ li {
 .selesai {
   text-decoration: line-through;
   color: gray;
+}
+
+.filter {
+  margin-top: 1rem;
 }
 </style>
