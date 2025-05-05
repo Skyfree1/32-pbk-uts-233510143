@@ -2,16 +2,16 @@
   <div class="container">
     <h1>Daftar Kegiatan</h1>
 
-    <!-- Tambah kegiatan -->
+    <!-- Tambah kegiatan baru -->
     <form @submit.prevent="tambahKegiatan">
       <input v-model="kegiatanBaru" placeholder="Masukkan kegiatan baru" />
       <button type="submit">Tambah</button>
     </form>
 
-    <!-- Tampilkan daftar kegiatan -->
+    <!-- Daftar kegiatan -->
     <ul>
       <li v-for="(item, index) in daftarKegiatan" :key="index">
-        <label>
+        <label class="kegiatan-label">
           <input type="checkbox" v-model="item.selesai" />
           <span :class="{ selesai: item.selesai }">{{ item.nama }}</span>
         </label>
@@ -71,6 +71,12 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.kegiatan-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .selesai {
