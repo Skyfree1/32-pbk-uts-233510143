@@ -1,24 +1,13 @@
 <template>
   <div class="container">
     <h1>Daftar Kegiatan</h1>
-
-    <!-- Form tambah kegiatan -->
-    <form @submit.prevent="tambahKegiatan">
-      <input v-model="kegiatanBaru" placeholder="Masukkan kegiatan baru" />
-      <button type="submit">Tambah</button>
+    <form @submit.prevent="tambahKegiatan" class="form-input">
+      <input v-model="kegiatanBaru" placeholder="Masukkan kegiatan baru" class="input-besar" />
+      <button type="submit" class="btn-tambah">Tambah</button>
     </form>
 
-    <!-- Filter toggle -->
-    <div class="filter">
-      <label>
-        <input type="checkbox" v-model="hanyaBelumSelesai" />
-        Tampilkan hanya yang belum selesai
-      </label>
-    </div>
-
-    <!-- Daftar kegiatan (difilter) -->
     <ul>
-      <li v-for="(item, index) in kegiatanTerfilter" :key="index">
+      <li v-for="(item, index) in daftarKegiatan" :key="index">
         <label class="kegiatan-label">
           <input type="checkbox" v-model="item.selesai" />
           <span :class="{ selesai: item.selesai }">{{ item.nama }}</span>
@@ -30,11 +19,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 const kegiatanBaru = ref('')
 const daftarKegiatan = ref([])
-const hanyaBelumSelesai = ref(false)
 
 function tambahKegiatan() {
   const nama = kegiatanBaru.value.trim()
@@ -47,30 +35,66 @@ function tambahKegiatan() {
 function hapusKegiatan(index) {
   daftarKegiatan.value.splice(index, 1)
 }
-
-// Komputasi daftar yang ditampilkan berdasarkan filter
-const kegiatanTerfilter = computed(() => {
-  return hanyaBelumSelesai.value
-    ? daftarKegiatan.value.filter(kegiatan => !kegiatan.selesai)
-    : daftarKegiatan.value
-})
 </script>
 
-<style scoped>
-.container {
-  max-width: 500px;
-  margin: 2rem auto;
+<style>
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: sans-serif;
+  color: white;
 }
 
-input[type="text"] {
-  padding: 8px;
-  width: 60%;
+body {
+  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1740&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
 
-button {
-  padding: 8px 12px;
-  margin-left: 10px;
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+.container {
+  max-width: 600px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+.form-input {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-besar {
+  flex: 1;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn-tambah {
+  padding: 14px 24px;
+  font-size: 16px;
+  background-color: #2d8cf0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 ul {
@@ -80,13 +104,14 @@ ul {
 }
 
 li {
-  background-color: #f5f5f5;
-  padding: 10px;
-  margin-bottom: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 12px;
+  margin-bottom: 6px;
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: white;
 }
 
 .kegiatan-label {
@@ -97,10 +122,6 @@ li {
 
 .selesai {
   text-decoration: line-through;
-  color: gray;
-}
-
-.filter {
-  margin-top: 1rem;
+  color: #ddd;
 }
 </style>
